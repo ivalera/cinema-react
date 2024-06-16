@@ -1,0 +1,23 @@
+@import '../../css/colors/colors.css';
+
+.button{
+    padding: 6px 10px;
+    border-radius: 2px;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--white-color);
+    background-color: var(--theme-main-color-strada);
+}
+
+.button:hover{
+    background-color: var(--theme-main-color-btn-transparent);
+}
+.button:focus{
+    background-color: var(--theme-main-color-black-transparent);
+}
+
+@media (any-hover: hover) {
+    .button:hover {
+        background-color: var(--theme-main-color-btn-transparent);
+    }
+}

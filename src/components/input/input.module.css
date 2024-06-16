@@ -1,0 +1,10 @@
+@import '../../css/colors/colors.css';
+
+.input{
+    padding: 6px;
+    border-radius: 2px;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: var(--theme-main-color-black);
+    border: 1px solid var(--white-color);
+}
