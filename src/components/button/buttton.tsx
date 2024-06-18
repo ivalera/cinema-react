@@ -1,14 +1,14 @@
 import styles from './button.module.css'
+import { ButtonProps } from './types';
 
-type ButtonProps = {
-  name: string;
-}
-
-export default function Button({name} : ButtonProps) {
+function Button({type, text} : ButtonProps) {
     return (
-        <button 
+        <button
+            type={type ?? 'button'}
             className={styles['button']}>
-            {name}
+            {text}
         </button>
     );
-  }
+}
+
+export default Button;

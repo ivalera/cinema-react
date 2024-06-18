@@ -1,19 +1,16 @@
 import styles from './input.module.css'
+import { InputProps } from './types';
 
-type InputProps = {
-    name: string;
-    placaholderText: string;
-    type?: string;
-  }
-
-export default function Input({name, type='text', placaholderText}: InputProps) {
+function Input({name, type, placaholderText, required}: InputProps) {
     return (
         <input 
             className={styles['input']} 
+            type={type ?? 'text'} 
             name={name}
-            type={type} 
             placeholder={placaholderText}
-            required
+            required={required}
         />
     );
 }
+
+export default Input;

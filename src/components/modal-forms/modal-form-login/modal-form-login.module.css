@@ -1,0 +1,7 @@
+@import '../../../css/colors/colors.css';
+
+.form__login{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}

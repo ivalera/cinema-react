@@ -1,12 +1,12 @@
 import './App.css';
-import FormLogin from './components/modal-forms/modal-form-login/form-login';
-import FormSignup from './components/modal-forms/modal-form-signup/form-signup';
+import ModalFormLogin from './components/modal-forms/modal-form-login/modal-form-login';
+import ModalFormSignup from './components/modal-forms/modal-form-signup/modal-form-signup';
 
 function App() {
   return (
     <>
-      <FormLogin isVisible={true} />
-      <FormSignup isVisible={false} />
+      <ModalFormLogin isVisible={false} />
+      <ModalFormSignup isVisible={true} />
     </>
   );
 }
