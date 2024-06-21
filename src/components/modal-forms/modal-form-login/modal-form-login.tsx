@@ -8,19 +8,34 @@ type ModalFormLoginProps = {
     isVisible: boolean;
 }
 
+interface ICredential {
+    login : string,
+    password: string
+}
+
 const EMPTY_VALUE = "";
+
+const INITIAL_CREDENTIAL: ICredential = {
+	login : EMPTY_VALUE,
+	password : EMPTY_VALUE
+}
 
 export default function ModalFormLogin({isVisible}: ModalFormLoginProps) {
 
-    const [login, setLogin] = useState(EMPTY_VALUE);
-    const [password, setPassword] = useState(EMPTY_VALUE);
+    const [credential, setCredential] = useState(INITIAL_CREDENTIAL);
 
     function handleLoginChange(e: ChangeEvent<HTMLInputElement>) {
-        setLogin(e.target.value);
+        setCredential({
+            ...credential,
+            login: e.target.value
+        });
     }
     
     function handlePasswordChange(e: ChangeEvent<HTMLInputElement>) {
-        setPassword(e.target.value);
+        setCredential({
+            ...credential,
+            password: e.target.value
+        });
     }
 
     function onLoginSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -28,12 +43,11 @@ export default function ModalFormLogin({isVisible}: ModalFormLoginProps) {
     
         console.log(`
             Пользователь успешно авторизован
-            Логин: ${login}
-            Пароль: ${password}`
+            Логин: ${credential.login}
+            Пароль: ${credential.password}`
         );
 
-        setLogin(EMPTY_VALUE);
-        setPassword(EMPTY_VALUE);
+        setCredential(INITIAL_CREDENTIAL)
     } 
 
     return (
@@ -44,14 +58,14 @@ export default function ModalFormLogin({isVisible}: ModalFormLoginProps) {
                     name='login' 
                     placaholderText='Username'
                     onChange={handleLoginChange}
-                    value={login}
+                    value={credential.login}
                     required={true}/>
                 <Input 
                     type='password' 
                     name='password' 
                     placaholderText='Password' 
                     onChange={handlePasswordChange}
-                    value={password}
+                    value={credential.password}
                     required={true}/>
                 <Button type='submit' text='LOGIN'/>
             </form>

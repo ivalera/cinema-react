@@ -8,19 +8,35 @@ type ModalFormLoginProps = {
     isVisible: boolean;
 }
 
+interface ICredential {
+    email : string,
+    password: string
+}
+
 const EMPTY_VALUE = "";
+
+const INITIAL_CREDENTIAL: ICredential = {
+	email : EMPTY_VALUE,
+	password : EMPTY_VALUE
+}
 
 export default function ModalFormSignup({isVisible}: ModalFormLoginProps) {
 
-    const [email, setEmail] = useState(EMPTY_VALUE);
-    const [password, setPassword] = useState(EMPTY_VALUE);
+    const [credential, setCredential] = useState(INITIAL_CREDENTIAL);
+
 
     function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {
-        setEmail(e.target.value);
+        setCredential({
+            ...credential,
+            email: e.target.value}
+        );
     }
-    
+
     function handlePasswordChange(e: ChangeEvent<HTMLInputElement>) {
-        setPassword(e.target.value);
+        setCredential({
+            ...credential,
+            password: e.target.value}
+        );
     }
 
     function onSignupSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -28,11 +44,10 @@ export default function ModalFormSignup({isVisible}: ModalFormLoginProps) {
 
         console.log(`
             Пользователь успешно зарегестрирован
-            Почта: ${email}
-            Пароль: ${password}`);
+            Почта: ${credential.email}
+            Пароль: ${credential.password}`);
 
-        setEmail(EMPTY_VALUE);
-        setPassword(EMPTY_VALUE);
+        setCredential(INITIAL_CREDENTIAL);
     }
 
     return (
@@ -43,14 +58,14 @@ export default function ModalFormSignup({isVisible}: ModalFormLoginProps) {
                     name='email' 
                     placaholderText='Email'
                     onChange={handleEmailChange}
-                    value={email}
+                    value={credential.email}
                     required={true}/>
                 <Input 
                     type='password'
                     name='password' 
                     placaholderText='Password'
                     onChange={handlePasswordChange}
-                    value={password}
+                    value={credential.password}
                     required={true}/>
                 <Button type='submit' text='SIGNUP'/>
             </form>
