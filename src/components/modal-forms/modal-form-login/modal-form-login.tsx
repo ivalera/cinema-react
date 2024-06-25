@@ -1,5 +1,5 @@
 import styles from './modal-form-login.module.css';
-import Button from "../../button/buttton"
+import Button from "../../button/button"
 import Input from "../../input/input"
 import ModalAuthorization from '../modal-authorization/modal-authorization';
 import { ChangeEvent, useState } from 'react';

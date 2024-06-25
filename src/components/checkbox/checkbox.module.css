@@ -1,0 +1,19 @@
+@import '../../css/colors/colors.css';
+
+.filters__genre-wrapper{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+.filters__genre-element{
+    font-size: 18px;
+    color: var(--white-color);  
+}
+input.filters__genre-checkbox{
+    width: 16px;
+    height: 16px; 
+}
+.filters__genre-element .filters__genre-checkbox{
+    margin-right: 8px;
+}

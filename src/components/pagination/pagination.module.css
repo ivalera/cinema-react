@@ -1,0 +1,28 @@
+@import '../../css/colors/colors.css';
+
+.pagination{
+    width: calc(100% - 40px);
+    position:absolute;
+    bottom: 20px;
+}
+.pagination__list{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: var(--white-color);
+    
+}
+.pagination__list li{
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    text-align: center;
+    line-height: 28px;
+    font-weight: 600;
+    background-color: var(--theme-main-color-bg-grey);
+}
+
+.pagination__list li:hover{
+    background-color: var(--theme-main-color-strada);
+}

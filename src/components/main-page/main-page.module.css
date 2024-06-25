@@ -1,0 +1,13 @@
+@import '../../css/colors/colors.css';
+
+.main__page {
+    background-color: var(--color-black);
+    height: 100%;
+}
+
+.main__content{
+    max-width: 1440px;
+    margin: 0 auto;
+    height: calc(100% - 80px);
+    display: flex;
+}

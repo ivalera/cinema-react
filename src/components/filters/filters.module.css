@@ -1,0 +1,32 @@
+@import '../../css/colors/colors.css';
+
+.filters{
+    position: relative;
+    margin: 20px 0 20px 20px;
+    width: 380px;
+    padding: 20px;
+    background-color: var(--theme-main-color-black);
+    border: 1px solid var(--theme-main-color-bg-grey);
+    display: flex;
+    flex-direction: column;
+}
+.filters__wrapper-top{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.filter__title{
+    font-size: 22px;
+    color: var(--white-color);
+}
+.filters__select-film{
+    margin-top: 30px;
+}
+.filters__genre{
+    margin: 20px 0 40px 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}

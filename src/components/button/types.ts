@@ -1,7 +1,7 @@
 type ButtonTypes = 'button' | 'submit' | 'reset';
 
 type ButtonProps = {
-    type: ButtonTypes;
+    type?: ButtonTypes;
     text: string;
 }
 

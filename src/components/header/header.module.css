@@ -1,0 +1,17 @@
+@import '../../css/colors/colors.css';
+
+.header{
+    height: 80px;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--theme-main-color-black);
+    box-shadow: 0 0 10px 10px rgba(24, 24, 24, 0.7);
+    
+}
+.header__title{
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--theme-main-color-strada);
+}
