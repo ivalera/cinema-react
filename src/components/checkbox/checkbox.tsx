@@ -1,22 +1,18 @@
-import { useState } from "react";
 import styles from "./checkbox.module.css"
 import { CheckboxType } from "../filters/types";
 
 interface CheckboxProps {
     items: CheckboxType[];
+    onChange: (updatedItems: CheckboxType[]) => void;
 }
 
-export default function CheckboxElements({items}: CheckboxProps) {
-    const [checkedItemsId, setCheсkedItemsId] = useState<number[]>([]);
+export default function CheckboxElements({items, onChange}: CheckboxProps) {
 
     function handleChangeItem(id: number) {
-        setCheсkedItemsId(prevState => {
-            if (prevState.includes(id)) {
-              return prevState.filter(itemId => itemId !== id);
-            } else {
-              return [...prevState, id];
-            }
-          });
+        const updatedItems = items.map(item =>
+            item.id === id ? { ...item, checked: !item.checked } : item
+        );
+        onChange(updatedItems);
     }
 
     return (
@@ -29,7 +25,7 @@ export default function CheckboxElements({items}: CheckboxProps) {
                             className={styles['filters__genre-checkbox']}
                             type="checkbox"
                             name={item.id.toString()}
-                            checked={checkedItemsId.includes(item.id)}
+                            checked={item.checked}
                             onChange={() => handleChangeItem(item.id)}/>
                         {item.name}
                     </label>

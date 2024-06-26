@@ -6,12 +6,21 @@ import { FILM_OPTIONS, FILM_OPTIONS_YEAR } from "./data/data";
 import Checkbox from "../checkbox/checkbox";
 import { useEffect, useState } from "react";
 import { getGenresList } from "../../api/request-genre";
-import { CheckboxType } from "./types";
+import { CheckboxType, SelectOptionsType } from "./types";
 
 let defaultGenres: CheckboxType[] = [];
 
+const SELECT_DEFAULT = {
+    OPTION: 'popular',
+    YEAR: '1999',
+};
+
 export default function Filters() {
     const [genres, setGenres] = useState<CheckboxType[]>([]);
+    const [selectedOption, setSelectedOption] = useState<SelectOptionsType>({
+        selectOptions: SELECT_DEFAULT.OPTION,
+        selectYear: SELECT_DEFAULT.YEAR
+    });
 
     useEffect(() => {
         dataGenresFetching();
@@ -28,28 +37,47 @@ export default function Filters() {
         })));
     }
 
+    function handleFiltersReset() {
+        setGenres(genres.map(genre => ({ ...genre, checked: false })));
+        setSelectedOption({
+            selectOptions: SELECT_DEFAULT.OPTION,
+            selectYear: SELECT_DEFAULT.YEAR
+        });
+    }
+
+    function handleSelectChange(optionKey: keyof SelectOptionsType, value: string) {
+        setSelectedOption(prev => ({
+            ...prev,
+            [optionKey]: value
+        }));
+    }
 
     return(
         <>
             <div className={styles['filters']}>
                 <div className={styles['filters__wrapper-top']}>
                     <h1 className={styles['filter__title']}>Фильтры</h1>
-                    <Button text={"x"}/>
+                    <Button text={"x"} onClick={handleFiltersReset}/>
                 </div>
                 <div className={styles['filters__select-film']}>
                     <Select
                         title="Cортировать по" 
-                        options={FILM_OPTIONS}/>
+                        options={FILM_OPTIONS}
+                        selectedOption={selectedOption.selectOptions}
+                        onChange={(value) => handleSelectChange('selectOptions', value)}/>
                 </div> 
                 <div className={styles['filters__select-film']}>
                     <Select
                         title="Год релиза" 
-                        options={FILM_OPTIONS_YEAR}/>
+                        options={FILM_OPTIONS_YEAR}
+                        selectedOption={selectedOption.selectYear}
+                        onChange={(value) => handleSelectChange('selectYear', value)}/>
                 </div>      
                 <div className={styles['filters__genre']}>
                     <h1 className={styles['filter__title']}>Жанры</h1>
                     <Checkbox 
-                        items={genres}/>
+                        items={genres}
+                        onChange={setGenres}/>
                 </div>
                 <Pagination/>
             </div>

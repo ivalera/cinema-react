@@ -9,3 +9,8 @@ export type CheckboxType = {
     name: string;
     checked: boolean;
 };
+
+export type SelectOptionsType = {
+    selectOptions: string;
+    selectYear: string;
+}

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styles from './select-film.module.css'
 
 type OptionsFilmType = {
@@ -10,23 +9,19 @@ type OptionsFilmType = {
 export type SelectFilmProps = {
     title: string;
     options: OptionsFilmType[];
+    selectedOption: string;
+    onChange: (value: string) => void;
 }
 
-export default function Select({title, options}: SelectFilmProps) {
-    const [selectOption, setSelectOption] = useState("");
-
-    function handleOnChange(event: React.ChangeEvent<HTMLSelectElement>) {
-        setSelectOption(event.target.value);
-    }
-
+export default function Select({title, options, selectedOption, onChange}: SelectFilmProps) {
     return(
         <div className={styles['filters__select-wrapper']}>
             <label className={styles['filters__select-title']}>
                 {title}
                 <select 
                     className={styles['filters__select-option']}
-                    value={selectOption} 
-                    onChange={handleOnChange}>
+                    value={selectedOption} 
+                    onChange={(e) => onChange(e.target.value)}>
                     {options.map((option) => (
                         <option key={option.id} value={option.value}>{option.label}</option>
                     ))}
