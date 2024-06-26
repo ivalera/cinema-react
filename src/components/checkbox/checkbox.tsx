@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import styles from "./checkbox.module.css"
 import { CheckboxType } from "../filters/types";
 
@@ -7,30 +7,30 @@ interface CheckboxProps {
 }
 
 export default function CheckboxElements({items}: CheckboxProps) {
-    
-    const [checkedItems, setCheсkedItems] = useState<CheckboxType[]>(items);
+    const [checkedItemsId, setCheсkedItemsId] = useState<number[]>([]);
 
-    function handleChangeItem(event: ChangeEvent<HTMLInputElement>, id: number) {
-        const { checked } = event.target;
-        setCheсkedItems(prevItems =>
-            prevItems.map(item =>
-                item.id === id ? { ...item, checked: checked } : item
-            )
-        );    
+    function handleChangeItem(id: number) {
+        setCheсkedItemsId(prevState => {
+            if (prevState.includes(id)) {
+              return prevState.filter(itemId => itemId !== id);
+            } else {
+              return [...prevState, id];
+            }
+          });
     }
 
     return (
         <div className={styles['filters__genre-wrapper']}>
            <ul className={styles['filters__genre-list']}>
-                {checkedItems.map((item) => (
+                {items.map((item) => (
                     <li key={item.id}>
                     <label className={styles['filters__genre-element']}>
                         <input
                             className={styles['filters__genre-checkbox']}
                             type="checkbox"
                             name={item.id.toString()}
-                            checked={item.checked}
-                            onChange={(e) => handleChangeItem(e, item.id)}/>
+                            checked={checkedItemsId.includes(item.id)}
+                            onChange={() => handleChangeItem(item.id)}/>
                         {item.name}
                     </label>
                     </li>
