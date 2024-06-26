@@ -7,7 +7,7 @@ export const FILM_OPTIONS: FilmOptionsType[] = [
 ];
 
 export const FILM_GENRES: CheckboxType[] = [
-    {id: 1, name: 'Комедия', cheked: false},
-    {id: 2, name: 'Боевик', cheked: false},
-    {id: 3, name: 'Драма', cheked: false},
+    {id: 1, name: 'Комедия', checked: true},
+    {id: 2, name: 'Боевик', checked: false},
+    {id: 3, name: 'Драма', checked: false},
 ];

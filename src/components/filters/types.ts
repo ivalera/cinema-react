@@ -7,5 +7,5 @@ export type FilmOptionsType = {
 export type CheckboxType = {
     id: number;
     name: string;
-    cheked: boolean;
+    checked: boolean;
 };
