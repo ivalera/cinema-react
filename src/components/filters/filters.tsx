@@ -38,7 +38,7 @@ export default function Filters() {
     }
 
     function handleFiltersReset() {
-        setGenres(genres.map(genre => ({ ...genre, checked: false })));
+        setGenres(defaultGenres);
         setSelectedOption({
             selectOptions: SELECT_DEFAULT.OPTION,
             selectYear: SELECT_DEFAULT.YEAR
