@@ -45,13 +45,6 @@ export default function Filters() {
         });
     }
 
-    function handleSelectChange(optionKey: keyof SelectOptionsType, value: string) {
-        setSelectedOption(prev => ({
-            ...prev,
-            [optionKey]: value
-        }));
-    }
-
     return(
         <>
             <div className={styles['filters']}>
@@ -64,14 +57,18 @@ export default function Filters() {
                         title="Cортировать по" 
                         options={FILM_OPTIONS}
                         selectedOption={selectedOption.selectOptions}
-                        onChange={(value) => handleSelectChange('selectOptions', value)}/>
+                        selectedProperty={'selectOptions'}
+                        selectOptionDefault={selectedOption}
+                        setSelect={setSelectedOption}/>
                 </div> 
                 <div className={styles['filters__select-film']}>
                     <Select
                         title="Год релиза" 
                         options={FILM_OPTIONS_YEAR}
                         selectedOption={selectedOption.selectYear}
-                        onChange={(value) => handleSelectChange('selectYear', value)}/>
+                        selectedProperty={'selectYear'}
+                        selectOptionDefault={selectedOption}
+                        setSelect={setSelectedOption}/>
                 </div>      
                 <div className={styles['filters__genre']}>
                     <h1 className={styles['filter__title']}>Жанры</h1>
