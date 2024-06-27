@@ -1,4 +1,4 @@
-import { SelectOptionsType } from '../filters/types';
+import { FiltersProperty } from '../filters/types';
 import styles from './select-film.module.css'
 
 type OptionsFilmType = {
@@ -11,18 +11,17 @@ export type SelectFilmProps = {
     title: string;
     options: OptionsFilmType[];
     selectedOption: string;
-    selectedProperty: string;
-    selectOptionDefault: SelectOptionsType;
-    setSelect: React.Dispatch<React.SetStateAction<SelectOptionsType>>;
+    selectedProperty: keyof FiltersProperty;
+    selectOptionDefault: FiltersProperty;
+    setSelect: React.Dispatch<React.SetStateAction<FiltersProperty>>;
 }
 
 export default function Select(
     {title, options, selectedOption, selectedProperty, selectOptionDefault, setSelect }: SelectFilmProps) {
 
-    function handleOnChange(event: React.ChangeEvent<HTMLSelectElement>,property: keyof SelectOptionsType) {
+    function handleOnChange(event: React.ChangeEvent<HTMLSelectElement>, property: keyof FiltersProperty) {
         const selectedItem = event.target.value;
-        const updatedSelectedItem = {...selectOptionDefault, [property]: selectedItem,};
-        setSelect(updatedSelectedItem);
+        setSelect({...selectOptionDefault, [property]: selectedItem});
     }
 
     return(
@@ -32,7 +31,7 @@ export default function Select(
                 <select 
                     className={styles['filters__select-option']}
                     value={selectedOption} 
-                    onChange={event => handleOnChange(event, selectedProperty as keyof SelectOptionsType)}>
+                    onChange={event => handleOnChange(event, selectedProperty)}>
                     {options.map((option) => (
                         <option key={option.id} value={option.value}>{option.label}</option>
                     ))}
