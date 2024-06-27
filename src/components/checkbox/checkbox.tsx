@@ -7,8 +7,6 @@ interface CheckboxProps {
 }
 
 export default function CheckboxElements({items, onChange}: CheckboxProps) {
-    console.log('Checkbox Items:', items);
-
     function handleChangeItem(id: number) {
         const updatedItems = items.map(item =>
             item.id === id ? { ...item, checked: !item.checked } : item

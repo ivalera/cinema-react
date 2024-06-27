@@ -8,6 +8,7 @@ import { useEffect, useReducer } from "react";
 import { getGenresList } from "../../api/request-genre";
 import { ACTION_TYPES, CheckboxType, FiltersProperty } from "./types";
 import { FILTERS_GENRES_KEY, loadFromLocalStorage, saveToLocalStorage } from "../../tools/local-storage/local-storage";
+import { filtersReducer } from "./filter-reducer";
 
 let FILTERS_DEFAULT: FiltersProperty = {
     OPTION: 'popular',
@@ -16,28 +17,10 @@ let FILTERS_DEFAULT: FiltersProperty = {
 };
 
 export interface FiltersAction{
-    type: typeof ACTION_TYPES[keyof typeof ACTION_TYPES];
+    type: string;
     OPTION?: string;
     YEAR?: string;
     DEFAULT_GENRES?: CheckboxType[];
-}
-
-function filtersReducer(state: FiltersProperty, action: FiltersAction){
-    switch(action.type) {
-        case ACTION_TYPES.FILTERS_RESET:
-            return {
-                ...FILTERS_DEFAULT,
-                DEFAULT_GENRES: state.DEFAULT_GENRES 
-            };
-        case ACTION_TYPES.SET_OPTION:
-            return { ...state, OPTION: action.OPTION };
-        case ACTION_TYPES.SET_YEAR:
-            return { ...state, YEAR: action.YEAR };
-        case ACTION_TYPES.SET_GENRES:
-            return { ...state, DEFAULT_GENRES: action.DEFAULT_GENRES };
-        default:
-            return state;
-    }
 }
 
 export default function Filters() {
@@ -57,8 +40,7 @@ export default function Filters() {
             const data = await getGenresList();
             if (data) { 
                 const updatedGenres = data.map((genre: CheckboxType) => ({
-                    id: genre.id,
-                    name: genre.name,
+                    ...genre,
                     checked: false
                 }));
                 dispatch({ type: ACTION_TYPES.SET_GENRES, DEFAULT_GENRES: updatedGenres });
@@ -71,12 +53,7 @@ export default function Filters() {
 
     function handleFiltersReset() {
         dispatch({ type: ACTION_TYPES.FILTERS_RESET });
-        const resetGenres = state.DEFAULT_GENRES.map((genre: CheckboxType) => ({
-            ...genre,
-            checked: false
-        }));
-        dispatch({ type: ACTION_TYPES.SET_GENRES, DEFAULT_GENRES: resetGenres });
-        saveToLocalStorage(FILTERS_GENRES_KEY, resetGenres)
+        saveToLocalStorage(FILTERS_GENRES_KEY, state.DEFAULT_GENRES.map((genre: CheckboxType) => ({ ...genre, checked: false })));
     }
 
     function handleOptionChange(value: string) {
