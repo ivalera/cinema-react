@@ -51,7 +51,7 @@ export default function ModalFormSignup({isVisible}: ModalFormLoginProps) {
     }
 
     return (
-        <ModalAuthorization isVisible={isVisible} modalTitle='Signup Form'>
+        <ModalAuthorization isVisibleModal={isVisible} modalTitle='Signup Form'>
             <form onSubmit={onSignupSubmit} className={styles['form__login']}>
                 <Input 
                     type='email' 

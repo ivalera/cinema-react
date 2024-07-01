@@ -2,75 +2,52 @@ import styles from "./filters.module.css"
 import Button from "../button/button"
 import Select from "../select/select-film"
 import Pagination from "../pagination/pagination";
-import { FILM_OPTIONS, FILM_OPTIONS_YEAR } from "./data/data";
 import Checkbox from "../checkbox/checkbox";
-import { useEffect, useReducer } from "react";
-import { getGenresList } from "../../api/request-genre";
-import { ACTION_TYPES, CheckboxType, FiltersProperty } from "./types";
-import { FILTERS_GENRES_KEY, loadFromLocalStorage, saveToLocalStorage } from "../../tools/local-storage/local-storage";
-import { filtersReducer } from "./filter-reducer";
+import { 
+    INITIAL_CRITERIA_YEAR, 
+    useCriteriaYear, 
+    useCriteriaYearContent, 
+    useCriteriaYearDispatch, 
+    useGenresContext 
+} from "./filters-context";
+import { useState } from "react";
+import { GenresType } from "./types";
 
-let FILTERS_DEFAULT: FiltersProperty = {
-    OPTION: 'popular',
-    YEAR: '1999',
-    DEFAULT_GENRES: []
-};
+export default function Filters() { 
 
-export interface FiltersAction{
-    type: string;
-    OPTION?: string;
-    YEAR?: string;
-    DEFAULT_GENRES?: CheckboxType[];
-}
+    const dispatch = useCriteriaYearDispatch() ?? (() => {});
+    const criteriasYears = useCriteriaYear() ?? INITIAL_CRITERIA_YEAR;
+    const genres = useGenresContext() ?? [];
+    const criteriasYearsContent = useCriteriaYearContent() ?? [];
 
-export default function Filters() {
-    const [state, dispatch] = useReducer(filtersReducer, FILTERS_DEFAULT);
+    const initialGenres = genres.map(genre => ({ ...genre, checked: false }));
+    
+    const [genresChecked, setGenresChecked] = useState(initialGenres);
 
-    useEffect(() => {
-        const storedGenres = loadFromLocalStorage(FILTERS_GENRES_KEY);
-        if (storedGenres) {
-            dispatch({ type: ACTION_TYPES.SET_GENRES, DEFAULT_GENRES: storedGenres });
-        } else {
-            dataGenresFetching();
-        }
-      }, []);
-
-      async function dataGenresFetching() {
-        try {   
-            const data = await getGenresList();
-            if (data) { 
-                const updatedGenres = data.map((genre: CheckboxType) => ({
-                    ...genre,
-                    checked: false
-                }));
-                dispatch({ type: ACTION_TYPES.SET_GENRES, DEFAULT_GENRES: updatedGenres });
-                saveToLocalStorage(FILTERS_GENRES_KEY, updatedGenres);
-            }
-        } catch (error) {
-            console.error('Error fetching genres:', error);
-        }
+    function criteriasYearsReset(){
+        dispatch({
+            type: 'RESET_CRITERIA_YEAR',
+            initialCriteria: 'popolar',
+            initialYear: '1999'
+          });
     }
 
     function handleFiltersReset() {
-        dispatch({ type: ACTION_TYPES.FILTERS_RESET });
-        saveToLocalStorage(FILTERS_GENRES_KEY, state.DEFAULT_GENRES.map((genre: CheckboxType) => ({ ...genre, checked: false })));
+        criteriasYearsReset();
+        setGenresChecked(initialGenres);
     }
 
-    function handleOptionChange(value: string) {
-        dispatch({ type: ACTION_TYPES.SET_OPTION, OPTION: value.OPTION });
+    function handleCriteriaChange(event: React.ChangeEvent<{ value: string }>) {
+        dispatch({ type: 'CRITERIA', criteria: event.target.value });
     }
 
-    function handleYearChange(value: string) {
-        dispatch({ type: ACTION_TYPES.SET_YEAR, YEAR: value.YEAR });
+    function handleYearChange(event: React.ChangeEvent<{ value: string }>) {
+        dispatch({ type: 'YEAR', year: event.target.value });
     }
 
-    function handleGenresChange(updatedGenres: CheckboxType[]) {
-        dispatch({ type: ACTION_TYPES.SET_GENRES, DEFAULT_GENRES: updatedGenres });
-        saveToLocalStorage(FILTERS_GENRES_KEY, updatedGenres);
+    function handleGenresChange(genres: GenresType[]) {
+        setGenresChecked(genres);
     }
-
-
-    console.log(state);
 
     return(
         <>
@@ -79,28 +56,24 @@ export default function Filters() {
                     <h1 className={styles['filter__title']}>Фильтры</h1>
                     <Button text={"x"} onClick={handleFiltersReset}/>
                 </div>
-                <div className={styles['filters__select-film']}>
+                <div className={styles['filters__select-film']}>    
                     <Select
                         title="Cортировать по" 
-                        options={FILM_OPTIONS}
-                        selectedOption={state.OPTION}
-                        selectedProperty={'OPTION'}
-                        selectOptionDefault={state}
-                        setSelect={handleOptionChange}/>
+                        options={criteriasYearsContent.filmCriterias}
+                        selectedOption={criteriasYears.criteria}
+                        handleOnChange={handleCriteriaChange}/>
                 </div> 
                 <div className={styles['filters__select-film']}>
                     <Select
                         title="Год релиза" 
-                        options={FILM_OPTIONS_YEAR}
-                        selectedOption={state.YEAR}
-                        selectedProperty={'YEAR'}
-                        selectOptionDefault={state}
-                        setSelect={handleYearChange}/>
+                        options={criteriasYearsContent.filmYears}
+                        selectedOption={criteriasYears.year}
+                        handleOnChange={handleYearChange}/>
                 </div>   
                 <div className={styles['filters__genre']}>
                     <h1 className={styles['filter__title']}>Жанры</h1>
                     <Checkbox 
-                        items={state.DEFAULT_GENRES}
+                        items={genresChecked}
                         onChange={handleGenresChange}/>
                 </div>
                 <Pagination/>

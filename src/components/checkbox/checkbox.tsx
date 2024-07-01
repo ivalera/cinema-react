@@ -1,9 +1,9 @@
 import styles from "./checkbox.module.css"
-import { CheckboxType } from "../filters/types";
+import { GenresType } from "../filters/types";
 
 interface CheckboxProps {
-    items: CheckboxType[];
-    onChange: (updatedItems: CheckboxType[]) => void;
+    items: GenresType[];
+    onChange: (updatedItems: GenresType[]) => void;
 }
 
 export default function CheckboxElements({items, onChange}: CheckboxProps) {

@@ -1,4 +1,3 @@
-import { FiltersProperty } from '../filters/types';
 import styles from './select-film.module.css'
 
 type OptionsFilmType = {
@@ -11,18 +10,12 @@ export type SelectFilmProps = {
     title: string;
     options: OptionsFilmType[];
     selectedOption: string;
-    selectedProperty: keyof FiltersProperty;
-    selectOptionDefault: FiltersProperty;
-    setSelect: React.Dispatch<React.SetStateAction<FiltersProperty>>;
+    handleOnChange: (event: React.ChangeEvent<{ value: string }>) => void;
 }
 
 export default function Select(
-    {title, options, selectedOption, selectedProperty, selectOptionDefault, setSelect }: SelectFilmProps) {
-
-    function handleOnChange(event: React.ChangeEvent<HTMLSelectElement>, property: keyof FiltersProperty) {
-        const selectedItem = event.target.value;
-        setSelect({...selectOptionDefault, [property]: selectedItem});
-    }
+    {title, options, selectedOption, handleOnChange }: SelectFilmProps) {
+    
 
     return(
         <div className={styles['filters__select-wrapper']}>
@@ -31,7 +24,7 @@ export default function Select(
                 <select 
                     className={styles['filters__select-option']}
                     value={selectedOption} 
-                    onChange={event => handleOnChange(event, selectedProperty)}>
+                    onChange={handleOnChange}>
                     {options.map((option) => (
                         <option key={option.id} value={option.value}>{option.label}</option>
                     ))}

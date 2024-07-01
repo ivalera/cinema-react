@@ -51,7 +51,7 @@ export default function ModalFormLogin({isVisible}: ModalFormLoginProps) {
     } 
 
     return (
-        <ModalAuthorization isVisible={isVisible} modalTitle='Login Form'>
+        <ModalAuthorization isVisibleModal={isVisible} modalTitle='Login Form'>
             <form onSubmit={onLoginSubmit} className={styles['form__login']}>
                 <Input 
                     type='text' 

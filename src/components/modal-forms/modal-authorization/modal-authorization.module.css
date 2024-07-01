@@ -5,6 +5,7 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    backdrop-filter: blur(10px);
     padding: 50px;
     border-radius: 4px;
     color: var(--white-color);
